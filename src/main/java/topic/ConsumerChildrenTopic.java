@@ -20,7 +20,8 @@ import java.util.concurrent.TimeoutException;
 
 public class ConsumerChildrenTopic {
     private final static String DOCUMENTS_ROUTING_KEY = "account.children.*";
-    private final static String FILES_EXCHANGE = "files_topic_exchange";
+
+    private final static String FILES_EXCHANGE = "account_topic_exchange";
 
     private final static String packageName = "pdf_package№" + RandomStringUtils.random(5, false, true);
 
@@ -34,11 +35,13 @@ public class ConsumerChildrenTopic {
             Channel channel = connection.createChannel();
             channel.basicQos(3);
 
-            // объявляем очередь
+
+            channel.exchangeDeclare(FILES_EXCHANGE, "topic");
+
             String queueName = channel.queueDeclare().getQueue();
-            // привязываем очередь с Exchange по ключу files.documents.*
+
             channel.queueBind(queueName, FILES_EXCHANGE, DOCUMENTS_ROUTING_KEY);
-            // когда получили сообщения
+
             channel.basicConsume(queueName, false, (consumerTag, message) -> {
                 String jsonUser = new String(message.getBody());
                 //json в юзера , заполнение pdf

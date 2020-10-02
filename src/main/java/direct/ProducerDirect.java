@@ -10,10 +10,6 @@ import java.util.Scanner;
 import java.util.concurrent.TimeoutException;
 
 public class ProducerDirect {
-    // есть очередь для справки
-    private final static String REFERENCE_QUEUE = "reference_queue";
-    // есть отдельная очередь для освобождения от физ-ры
-    private final static String EXEMPTION_QUEUE = "exemption_queue";
 
     // роутинг по png
     private final static String REFERENCE_ROUTING_KEY = "reference";
@@ -49,9 +45,9 @@ public class ProducerDirect {
                 Channel channel = connection.createChannel();
                 // создали Exchange
                 channel.exchangeDeclare(DOCUMENT_EXCHANGE, EXCHANGE_TYPE);
-                // привязали очереди под определенным routingKey
-                channel.queueBind(REFERENCE_QUEUE, DOCUMENT_EXCHANGE, REFERENCE_ROUTING_KEY);
-                channel.queueBind(EXEMPTION_QUEUE, DOCUMENT_EXCHANGE, EXEMPTION_ROUTING_KEY);
+//                // привязали очереди под определенным routingKey
+//                channel.queueBind(REFERENCE_QUEUE, DOCUMENT_EXCHANGE, REFERENCE_ROUTING_KEY);
+//                channel.queueBind(EXEMPTION_QUEUE, DOCUMENT_EXCHANGE, EXEMPTION_ROUTING_KEY);
                 ObjectMapper mapper = new ObjectMapper();
                 String jsonObject = mapper.writeValueAsString(user);
                 String currentRouting = "";
@@ -67,3 +63,12 @@ public class ProducerDirect {
         }
     }
 }
+/*
+1
+Tim
+BIk
+лох
+12.11.1000
+20.11.1000
+
+ */

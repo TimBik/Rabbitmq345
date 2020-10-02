@@ -14,7 +14,7 @@ import java.util.concurrent.TimeoutException;
 
 public class ConsumerAdultsTopic {
     private final static String DOCUMENTS_ROUTING_KEY = "account.adults.*";
-    private final static String FILES_EXCHANGE = "files_topic_exchange";
+    private final static String FILES_EXCHANGE = "account_topic_exchange";
     private final static String packageName = "pdf_package№" + RandomStringUtils.random(5, false, true);
 
     public static void main(String[] args) {
@@ -25,6 +25,8 @@ public class ConsumerAdultsTopic {
             Connection connection = connectionFactory.newConnection();
             Channel channel = connection.createChannel();
             channel.basicQos(3);
+
+            channel.exchangeDeclare(FILES_EXCHANGE, "topic");
 
             // объявляем очередь
             String queueName = channel.queueDeclare().getQueue();

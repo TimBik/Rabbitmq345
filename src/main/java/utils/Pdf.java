@@ -1,7 +1,7 @@
 package utils;
 
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.*;
 import model.User;
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -41,19 +41,34 @@ public class Pdf {
 
     public void createPdf(String allFileName, String helpFileName) throws IOException, DocumentException {
         //создание pdf документа
+
+
         Document document = new Document();
+
         PdfWriter.getInstance(document, new FileOutputStream(allFileName));
+
         document.open();
-        Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
+        //подключаем файл шрифта, который поддерживает кириллицу
+        BaseFont bf = BaseFont.createFont("font/19925.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+
+        Font font = new Font(bf);
 
         BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("created/txt/" + helpFileName)));
         //запись в pdf текстовый файл
+//        Chunk chunk = new Chunk("", font);
+        Paragraph paragraph = new Paragraph();
+        paragraph.setFont(font);
+        paragraph.setLeading(15);
         while (br.ready()) {
-            String str = br.readLine();
-            Chunk chunk = new Chunk(str, font);
-            document.add(chunk);
+            String str = br.readLine() + "\n";
+            //Adding text in the form of string
+            System.out.println(str);
+            paragraph.add(str);
         }
+        document.add(paragraph);
+
         document.close();
+        System.out.println("закрылся");
         br.close();
     }
 }

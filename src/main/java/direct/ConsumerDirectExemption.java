@@ -14,7 +14,14 @@ import java.util.concurrent.TimeoutException;
 
 public class ConsumerDirectExemption {
 
-    private final static String EXEMPTION_QUEUE = "exemption_queue";
+    private final static String EXEMPTION_QUEUE = "exemption";
+
+
+    private final static String DOCUMENT_EXCHANGE = "document_direct_exchange";
+
+    // новый
+    private final static String EXCHANGE_TYPE = "direct";
+
 
     private final static String packageName = "pdf_package№" + RandomStringUtils.random(5, false, true);
 
@@ -26,7 +33,16 @@ public class ConsumerDirectExemption {
             Connection connection = connectionFactory.newConnection();
             Channel channel = connection.createChannel();
             channel.basicQos(3);
-            channel.basicConsume(EXEMPTION_QUEUE, false, (consumerTag, message) -> {
+
+            channel.exchangeDeclare(DOCUMENT_EXCHANGE, EXCHANGE_TYPE);
+            // создаем временную очередь со случайным названием
+            String queue = channel.queueDeclare().getQueue();
+
+            // привязали очередь к EXCHANGE_NAME
+            channel.queueBind(queue, DOCUMENT_EXCHANGE, EXEMPTION_QUEUE);
+
+
+            channel.basicConsume(queue, false, (consumerTag, message) -> {
                 String jsonUser = new String(message.getBody());
                 //json в юзера , заполнение pdf
                 ObjectMapper mapper = new ObjectMapper();
