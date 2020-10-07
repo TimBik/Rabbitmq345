@@ -33,15 +33,11 @@ public class ConsumerDirectExemption {
             Connection connection = connectionFactory.newConnection();
             Channel channel = connection.createChannel();
             channel.basicQos(3);
-
             channel.exchangeDeclare(DOCUMENT_EXCHANGE, EXCHANGE_TYPE);
             // создаем временную очередь со случайным названием
             String queue = channel.queueDeclare().getQueue();
-
             // привязали очередь к EXCHANGE_NAME
             channel.queueBind(queue, DOCUMENT_EXCHANGE, EXEMPTION_QUEUE);
-
-
             channel.basicConsume(queue, false, (consumerTag, message) -> {
                 String jsonUser = new String(message.getBody());
                 //json в юзера , заполнение pdf

@@ -46,7 +46,6 @@ public class ProducerTopic {
                 ObjectMapper mapper = new ObjectMapper();
                 String jsonObject = mapper.writeValueAsString(user);
                 channel.exchangeDeclare(FILES_EXCHANGE, EXCHANGE_TYPE);
-
                 // формируем роутинг
                 String currentRouting = "";
                 if (user.getAge() < 18) {

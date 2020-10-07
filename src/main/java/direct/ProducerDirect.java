@@ -63,12 +63,3 @@ public class ProducerDirect {
         }
     }
 }
-/*
-1
-Tim
-BIk
-лох
-12.11.1000
-20.11.1000
-
- */

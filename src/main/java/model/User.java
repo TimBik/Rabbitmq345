@@ -8,34 +8,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class User implements Serializable {
-    @Parameter(names = {"name", "name"})
+
     private String name;
 
-    @Parameter(names = {"surname", "surname"})
     private String surname;
 
-    @Parameter(names = {"number", "number"})
     private String number;
 
-    @Parameter(names = {"age", "age"})
     private int age;
 
-    @Parameter(names = {"polis", "polis"})
     private String polis;
 
-    @Parameter(names = {"illness", "illness"})
     private String illness;
 
-    @Parameter(names = {"first", "first"})
     private String first;
 
-    @Parameter(names = {"last", "last"})
     private String last;
 
-    @Parameter(names = {"doctor", "doctor"})
     private String doctor;
 
-    @Parameter(names = {"time", "time"})
     private String time;
 
     public User(String name, String surname, String number, int age, String polis) {
